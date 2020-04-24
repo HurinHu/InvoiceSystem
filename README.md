@@ -27,9 +27,10 @@ Copy `env` file to `.env`, change the parameter as you need.
 Setup your vhost to point to public folder
 
 ### Frontend
--Go to front end folder, use `npm install` to install the dependencies. 
--Run `next build` to build the project. 
--Run `next export` to export the static files, it will generate to `out` folder.
+  
+  - Go to front end folder, use `npm install` to install the dependencies. 
+  - Run `next build` to build the project. 
+  - Run `next export` to export the static files, it will generate to `out` folder.
 
 Put the output files to the server where you want it to serve.
 
