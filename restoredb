@@ -1,0 +1,2 @@
+#!/bin/bash
+cat database/backup.sql | docker exec -i invoicesystem_mysql-server_1 /usr/bin/mysql -u root --password=12345 invoice_system

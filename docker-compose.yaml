@@ -1,0 +1,32 @@
+version: "3.3"
+services:
+  web-server:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    restart: always
+    volumes:
+      - "./backend/:/var/www/html/backend/"
+      - "./frontend/out/:/var/www/html/"
+    ports:
+      - "8200:80"
+
+  mysql-server:
+    image: mysql:8.0.19
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5.0.1
+    restart: always
+    environment:
+      PMA_HOST: mysql-server
+      PMA_USER: root
+      PMA_PASSWORD: 12345
+    ports:
+      - "8300:80"
+volumes:
+  mysql-data:
