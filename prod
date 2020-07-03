@@ -1,0 +1,11 @@
+#!/bin/bash
+cd frontend
+yarn build
+rm -rf ../backend/resources/static/*
+cp -r ./build/* ../backend/resources/static
+cd ../backend
+gradle build
+cd ..
+mkdir -p ./build
+rm -rf ./build/*
+cp ./backend/build/libs/InvoiceSystem.war ./build/InvoiceSystem.war

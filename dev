@@ -1,0 +1,27 @@
+#!/bin/bash
+function block_for_change {
+  inotifywait --recursive --event modify,move,create,delete src/
+}
+
+function update {
+  gradle build
+  docker container kill $(docker ps | grep "iceloof_invoicesystem" | awk '{ print $1 }')
+  docker rm $(docker ps -a | grep "iceloof_invoicesystem" | awk '{ print $1 }')
+  docker build -t invoicesystem .
+  docker run -p 9090:8080 --name iceloof_invoicesystem invoicesystem &
+}
+
+if [ "$1" == "frontend" ]; then
+  cd frontend
+  yarn start
+elif [ "$1" == "backend" ]; then
+  cd backend
+  update
+  if [ "$(uname)" == "Darwin" ]; then
+    watchman -- trigger src/ update '*' -- update
+  elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+    while block_for_change; do
+      update
+    done
+  fi
+fi
