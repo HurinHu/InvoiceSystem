@@ -3,4 +3,4 @@
 .gradle
 db
 build
-resources
+resources/static
