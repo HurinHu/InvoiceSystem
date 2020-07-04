@@ -8,7 +8,7 @@ function update {
   docker container kill $(docker ps | grep "iceloof_invoicesystem" | awk '{ print $1 }')
   docker rm $(docker ps -a | grep "iceloof_invoicesystem" | awk '{ print $1 }')
   docker build -t invoicesystem .
-  docker run -p 9090:8080 --name iceloof_invoicesystem invoicesystem &
+  docker-compose up --no-deps --build --abort-on-container-exit --remove-orphans &
 }
 
 if [ "$1" == "frontend" ]; then

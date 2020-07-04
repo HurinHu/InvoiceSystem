@@ -1,3 +1,6 @@
+.DS_Store
+._*
 .gradle
+db
 build
-resouces/static/*
+resouces/static

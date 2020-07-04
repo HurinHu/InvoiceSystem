@@ -1,13 +1,14 @@
 # InvoiceSystem
 This is an invoice system for freelancer to manage their billing.
 
-This project is based on Docker+PHP+MySql+React+Bootstrap
+This project is based on Docker+Java+MySql+React
 
 ## Environment
 
 ### Backend
 
 * Docker: 19.03.8
+* MySQL: 8.0.20
 * Java: 1.8.0
 * Gradle: 6.3
 * Spring Boot: 2.3.1
@@ -15,6 +16,11 @@ This project is based on Docker+PHP+MySql+React+Bootstrap
 Default:
 * Port: 8080(manual run)/9090(docker)
 * Base URL: /
+
+Setting:
+* Docker: `.env`
+* Backend: `src\com\iceloof\Setting.java`
+* Frontend router: `src\com\iceloof\controller\RouterController.java`
 
 ### Frontend
 

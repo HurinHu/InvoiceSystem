@@ -1,0 +1,39 @@
+version: "3"
+services:
+  iceloof_invoicesystem:
+    image: invoicesystem
+    container_name: iceloof_invoicesystem
+    ports:
+      - "${BACKEND_PORT}:8080"
+    networks:
+      - invoicesystem-network
+    depends_on:
+      - invoicesystem_db
+
+  invoicesystem_db:
+    image: mysql:8.0.20
+    container_name: invoicesystem_db
+    networks:
+      - invoicesystem-network
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+    volumes:
+      - "./db:/var/lib/mysql"
+
+  invoicesystem_phpmyadmin:
+    depends_on:
+      - invoicesystem_db
+    image: phpmyadmin/phpmyadmin:5.0.1
+    container_name: invoicesystem_phpmyadmin
+    networks:
+      - invoicesystem-network
+    environment:
+      PMA_HOST: invoicesystem_db
+      PMA_USER: root
+      PMA_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "${PHPMYADMIN_PORT}:80"
+
+networks:
+  invoicesystem-network:
