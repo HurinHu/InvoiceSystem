@@ -18,9 +18,16 @@ import com.iceloof.model.*;
 @RequestMapping("/api")
 public class ApiController {
 
-  @RequestMapping(value="/test", method=RequestMethod.GET, produces = "application/json")
-  public String getRegion(HttpSession session, HttpServletRequest request, HttpServletResponse response){
-    return "test";
+  private Data data = new Data();
+
+  @RequestMapping(value="/userlist", method=RequestMethod.GET, produces = "application/json")
+  public Object getUser(HttpServletResponse response){
+    return data.getUser(response);
+  }
+
+  @RequestMapping(value="/user", method=RequestMethod.POST, produces = "application/json")
+  public Object getUser(@RequestParam(value="name", required=true) String name, @RequestParam(value="email", required=true) String email, @RequestParam(value="password", required=true) String password, HttpServletResponse response){
+    return data.createUser(name, email, password, response);
   }
 
 }

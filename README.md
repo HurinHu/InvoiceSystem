@@ -51,6 +51,8 @@ Build: `cd backend & gradle build`
 
 Manual run: `cd backend & gradle bootRun`
 
+Created db folder with permission: `./dev` file line 10 (replace user:user with your current user name)
+
 ### Frontend
 
 Install dependencies:  `yarn add`

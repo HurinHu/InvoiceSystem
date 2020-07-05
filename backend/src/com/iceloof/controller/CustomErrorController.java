@@ -45,6 +45,11 @@ public class CustomErrorController implements ErrorController {
         response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         break;
       }
+      case 409: {
+        this.error = new Error("CONFLICT", "The request could not be completed due to a conflict with the current state of the resource");
+        response.setStatus(HttpServletResponse.SC_CONFLICT);
+        break;
+      }
       case 500: {
         this.error = new Error("INTERNAL_SERVER_ERROR", "500 Internal Server Error");
         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

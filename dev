@@ -5,9 +5,9 @@ function block_for_change {
 
 function update {
   gradle build
-  docker container kill $(docker ps | grep "iceloof_invoicesystem" | awk '{ print $1 }')
-  docker rm $(docker ps -a | grep "iceloof_invoicesystem" | awk '{ print $1 }')
-  docker build -t invoicesystem .
+  docker container kill $(docker ps | grep "invoicesystem" | awk '{ print $1 }')
+  docker rm $(docker ps -a | grep "invoicesystem" | awk '{ print $1 }')
+  sudo chown -R nora:nora db
   docker-compose up --no-deps --build --abort-on-container-exit --remove-orphans &
 }
 

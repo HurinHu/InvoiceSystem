@@ -1,7 +1,9 @@
 version: "3"
 services:
   iceloof_invoicesystem:
-    image: invoicesystem
+    build:
+      context: ./
+      dockerfile: Dockerfile
     container_name: iceloof_invoicesystem
     ports:
       - "${BACKEND_PORT}:8080"
@@ -19,7 +21,7 @@ services:
       - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
     volumes:
-      - "./db:/var/lib/mysql"
+      - ./db:/var/lib/mysql:z
 
   invoicesystem_phpmyadmin:
     depends_on:
