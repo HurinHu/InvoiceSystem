@@ -6,6 +6,7 @@ import java.util.List;
 public class Result {
 
   private String status = "404 Not Found";
+  private String msg = "";
   private List<DataStructure> axes = new ArrayList<DataStructure>();
   private Object data = new ArrayList<Object>();
 
@@ -28,6 +29,11 @@ public class Result {
       this.data = data;
   }
 
+  public Result(String status, String msg) {
+      this.status = status;
+      this.msg = msg;
+  }
+
   public String getStatus() {
       return this.status;
   }
@@ -38,5 +44,9 @@ public class Result {
 
   public Object getData() {
       return this.data;
+  }
+
+  public String getMsg() {
+    return this.msg;
   }
 }

@@ -6,4 +6,9 @@ public class Setting {
   public String db_user = "root";
   public String db_pwd = "root";
   public String table_user = "users";
+  public String user_id = "id";
+  public String user_name = "name";
+  public String user_email = "email";
+  public String user_password = "password";
+  public String created_time = "created_time";
 }

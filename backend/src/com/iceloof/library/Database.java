@@ -904,36 +904,72 @@ public class Database {
         }
       }
       this.list = new ArrayList<Object>();
-      if(this.flag_update) {
-        statement.executeUpdate();
-      } else {
-        this.resultset = this.statement.executeQuery();
-        List<Object> rowdata = null;
-        ResultSetMetaData rsmd = this.resultset.getMetaData();
-        int column = rsmd.getColumnCount();
-        int type;
-        while(resultset.next()) {
-          if(column == 1) {
-            type = rsmd.getColumnType(1);
-            if(type == Types.FLOAT || type == Types.DOUBLE || type == Types.INTEGER || type == Types.NUMERIC) {
-              this.list.add(resultset.getDouble(1));
-            }else{
-              this.list.add(resultset.getString(1));
-            }
-          }else {
-            rowdata = new ArrayList<Object>();
-            for(i = 1; i <= column; i ++) {
-              type = rsmd.getColumnType(i);
-              if(type == Types.FLOAT || type == Types.DOUBLE || type == Types.INTEGER || type == Types.NUMERIC) {
-                rowdata.add(resultset.getDouble(i));
-              }else{
-                rowdata.add(resultset.getString(i));
-              }
-            }
-            this.list.add(rowdata);
+      this.resultset = this.statement.executeQuery();
+      List<Object> rowdata = null;
+      ResultSetMetaData rsmd = this.resultset.getMetaData();
+      int column = rsmd.getColumnCount();
+      int type;
+      while(resultset.next()) {
+        if(column == 1) {
+          type = rsmd.getColumnType(1);
+          if(type == Types.FLOAT || type == Types.DOUBLE || type == Types.INTEGER || type == Types.NUMERIC) {
+            this.list.add(resultset.getDouble(1));
+          }else{
+            this.list.add(resultset.getString(1));
           }
+        }else {
+          rowdata = new ArrayList<Object>();
+          for(i = 1; i <= column; i ++) {
+            type = rsmd.getColumnType(i);
+            if(type == Types.FLOAT || type == Types.DOUBLE || type == Types.INTEGER || type == Types.NUMERIC) {
+              rowdata.add(resultset.getDouble(i));
+            }else{
+              rowdata.add(resultset.getString(i));
+            }
+          }
+          this.list.add(rowdata);
         }
       }
+      return this.list;
+    } catch (SQLException e) {
+      return e.getMessage();
+    }
+  }
+
+  public Object update() {
+    if(this.connection == null || this.isClosed()) {
+      this.connect();
+    }
+    try {
+      this.statement = connection.prepareStatement(this.sql);
+      int i = 1;
+      for(Type item: this.setData){
+        switch(item.getType()){
+          case "Null":
+            this.statement.setNull(i++, Types.INTEGER);
+            break;
+          case "String":
+            this.statement.setString(i++, item.getValue());
+            break;
+          case "Long":
+            this.statement.setLong(i++, Long.parseLong(item.getValue()));
+            break;
+          case "Int":
+            this.statement.setInt(i++, Integer.parseInt(item.getValue()));
+            break;
+          case "Float":
+            this.statement.setFloat(i++, Float.parseFloat(item.getValue()));
+            break;
+          case "Double":
+            this.statement.setDouble(i++, Double.parseDouble(item.getValue()));
+            break;
+          default:
+            this.statement.setString(i++, item.getValue());
+            break;
+        }
+      }
+      this.list = new ArrayList<Object>();
+      this.statement.executeUpdate();
       return this.list;
     } catch (SQLException e) {
       return e.getMessage();

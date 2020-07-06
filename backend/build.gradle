@@ -34,6 +34,7 @@ project.webAppDirName = 'WebContent'
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.20'
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 }

@@ -5,9 +5,15 @@ function block_for_change {
 
 function update {
   gradle build
-  docker container kill $(docker ps | grep "invoicesystem" | awk '{ print $1 }')
-  docker rm $(docker ps -a | grep "invoicesystem" | awk '{ print $1 }')
+  docker container kill $(docker ps | grep "invoicesystem_backend" | awk '{ print $1 }')
+  docker container kill $(docker ps | grep "invoicesystem_phpmyadmin" | awk '{ print $1 }')
+  docker container kill $(docker ps | grep "invoicesystem_db" | awk '{ print $1 }')
+  docker rm $(docker ps -a | grep "invoicesystem_backend" | awk '{ print $1 }')
+  docker rm $(docker ps -a | grep "invoicesystem_phpmyadmin" | awk '{ print $1 }')
+  docker rm $(docker ps -a | grep "invoicesystem_db" | awk '{ print $1 }')
+
   sudo chown -R nora:nora db
+
   docker-compose up --no-deps --build --abort-on-container-exit --remove-orphans &
 }
 
