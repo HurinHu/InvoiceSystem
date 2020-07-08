@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import com.iceloof.library.*;
 import com.iceloof.Setting;
 
@@ -42,7 +44,7 @@ public class Data {
     }
   }
 
-  public Object createUser(String name, String email, String password, HttpServletResponse res) {
+  public Object createUser(String name, String email, String password, String role, HttpServletResponse res) {
     this.db.reset();
     this.axes = new Axes();
     this.db.insert(this.setting.table_user);
@@ -50,11 +52,17 @@ public class Data {
     this.db.attr(this.setting.user_name);
     this.db.attr(this.setting.user_email);
     this.db.attr(this.setting.user_password);
+    this.db.attr(this.setting.user_role);
     this.db.attr(this.setting.created_time);
     this.db.val();
     this.db.val(name);
     this.db.val(email);
     this.db.val(this.tools.hash(password, "iceloof"));
+    if(role == null) {
+      this.db.val("USER");
+    } else {
+      this.db.val(role);
+    }
     this.db.val(this.tools.currentTimestamp());
     this.result = this.db.update();
     this.db.close();
@@ -224,18 +232,21 @@ public class Data {
   }
 
   @SuppressWarnings({ "unchecked" })
-  public Object loginByName(String name, String password, HttpServletResponse res) {
+  public Object loginByName(String name, String password, HttpServletRequest req, HttpServletResponse res) {
+    HttpSession session = req.getSession();
     this.db.reset();
     this.axes = new Axes();
     this.db.select(this.setting.user_id);
     this.db.select(this.setting.user_name);
     this.db.select(this.setting.user_email);
+    this.db.select(this.setting.user_role);
     this.db.from(this.setting.table_user);
     this.db.where(this.setting.user_name, name);
     this.db.where(this.setting.user_password, this.tools.hash(password, "iceloof"));
     this.axes.add(new DataStructure("Integer", "id"));
     this.axes.add(new DataStructure("String", "name"));
     this.axes.add(new DataStructure("String", "email"));
+    this.axes.add(new DataStructure("String", "role"));
     this.result = this.db.get();
     this.db.close();
     if(this.result instanceof String) {
@@ -243,8 +254,16 @@ public class Data {
       return new Error("BAD_REQUEST", "400 Bad Request");
     } else {
       if(((List<Object>)this.result).size() == 1){
+        List<Object> list = ((List<List<Object>>)this.result).get(0);
         res.setStatus(HttpServletResponse.SC_OK);
-        return new User(Integer.parseInt(String.valueOf(((List<Object>)this.result).get(0))), String.valueOf(((List<Object>)this.result).get(1)), String.valueOf(((List<Object>)this.result).get(2)));
+        int id = (new Double(list.get(0).toString())).intValue();
+        String email = list.get(2).toString();
+        String role = list.get(3).toString();
+        session.setAttribute("UserId", id);
+        session.setAttribute("UserName", name);
+        session.setAttribute("UserEmail", email);
+        session.setAttribute("UserRole", role);
+        return new User(id, name, email, role);
       } else {
         res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         return new Error("AUTH_FAILED", "Either username or password was incorrect");
@@ -253,18 +272,21 @@ public class Data {
   }
 
   @SuppressWarnings({ "unchecked" })
-  public Object loginByEmail(String email, String password, HttpServletResponse res) {
+  public Object loginByEmail(String email, String password, HttpServletRequest req, HttpServletResponse res) {
+    HttpSession session = req.getSession();
     this.db.reset();
     this.axes = new Axes();
     this.db.select(this.setting.user_id);
     this.db.select(this.setting.user_name);
     this.db.select(this.setting.user_email);
+    this.db.select(this.setting.user_role);
     this.db.from(this.setting.table_user);
     this.db.where(this.setting.user_email, email);
     this.db.where(this.setting.user_password, this.tools.hash(password, "iceloof"));
     this.axes.add(new DataStructure("Integer", "id"));
     this.axes.add(new DataStructure("String", "name"));
     this.axes.add(new DataStructure("String", "email"));
+    this.axes.add(new DataStructure("String", "role"));
     this.result = this.db.get();
     this.db.close();
     if(this.result instanceof String) {
@@ -272,8 +294,16 @@ public class Data {
       return new Error("BAD_REQUEST", "400 Bad Request");
     } else {
       if(((List<Object>)this.result).size() == 1){
+        List<Object> list = ((List<List<Object>>)this.result).get(0);
         res.setStatus(HttpServletResponse.SC_OK);
-        return new User(Integer.parseInt(String.valueOf(((List<Object>)this.result).get(0))), String.valueOf(((List<Object>)this.result).get(1)), String.valueOf(((List<Object>)this.result).get(2)));
+        int id = (new Double(list.get(0).toString())).intValue();
+        String user = list.get(1).toString();
+        String role = list.get(3).toString();
+        session.setAttribute("UserId", id);
+        session.setAttribute("UserName", user);
+        session.setAttribute("UserEmail", email);
+        session.setAttribute("UserRole", role);
+        return new User(id, user, email, role);
       } else {
         res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         return new Error("AUTH_FAILED", "Either username or password was incorrect");
@@ -284,6 +314,11 @@ public class Data {
   public Object bad_request(HttpServletResponse res) {
       res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
       return new Error("BAD_REQUEST", "400 Bad Request");
+  }
+
+  public Object logout(HttpServletResponse res) {
+      res.setStatus(HttpServletResponse.SC_OK);
+      return new Result("200 OK", "User logout");
   }
 
 }

@@ -25,9 +25,14 @@ public class ApiController {
     return data.getUser(response);
   }
 
-  @RequestMapping(value="/user", method=RequestMethod.POST, produces = "application/json")
-  public Object createUser(@RequestParam(value="name", required=true) String name, @RequestParam(value="email", required=true) String email, @RequestParam(value="password", required=true) String password, HttpServletResponse response){
-    return data.createUser(name, email, password, response);
+  @RequestMapping(value="/register", method=RequestMethod.POST, produces = "application/json")
+  public Object createUser(@RequestParam(value="name", required=true) String name, @RequestParam(value="email", required=true) String email, @RequestParam(value="password", required=true) String password, @RequestParam(value="role", required=false) String role,  HttpServletResponse response){
+    return data.createUser(name, email, password, role, response);
+  }
+
+  @RequestMapping(value="/user", method=RequestMethod.GET, produces = "application/json")
+  public Object updateUser(HttpServletResponse response, HttpSession session){
+    return new User(session);
   }
 
   @RequestMapping(value="/user", method=RequestMethod.PUT, produces = "application/json")
@@ -66,6 +71,26 @@ public class ApiController {
       return data.bad_request(response);
     }
     return data.bad_request(response);
+  }
+
+  @RequestMapping(value="/auth", method=RequestMethod.POST, produces = "application/json")
+  public Object auth(@RequestParam(value="name", required=false) String name, @RequestParam(value="email", required=false) String email, @RequestParam(value="password", required=true) String password, HttpServletRequest request, HttpServletResponse response){
+    if(name != null) {
+      return data.loginByName(name, password, request, response);
+    } else if(email != null) {
+      return data.loginByEmail(email, password, request, response);
+    } else {
+      return data.bad_request(response);
+    }
+  }
+
+  @RequestMapping(value="/logout", method=RequestMethod.GET, produces = "application/json")
+  public Object auth(HttpServletRequest request, HttpServletResponse response, HttpSession session){
+    session.invalidate();
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    response.setHeader("Pragma", "no-cache");
+    response.setDateHeader("Expires", 0);
+    return data.logout(response);
   }
 
 }
