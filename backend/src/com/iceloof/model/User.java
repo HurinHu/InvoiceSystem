@@ -54,4 +54,8 @@ public class User {
     return this.role;
   }
 
+  public String toSring() {
+    return "{\"id\":"+this.id+", \"name\":"+this.name+", \"email\":"+this.email+", \"role\":"+this.role+"}";
+  }
+
 }

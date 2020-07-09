@@ -72,7 +72,7 @@ public class Database {
     } catch (SQLException e) {
       this.print(e.getMessage());
     }
-    return null;
+    return this.connection;
   }
 
   private boolean isClosed() {
@@ -98,7 +98,7 @@ public class Database {
 
   public ResultSet query(String sql) {
     if(this.connection == null) {
-      this.connect();
+      this.connection = this.connect();
     }
     try {
       Statement statement = connection.createStatement();
@@ -873,7 +873,7 @@ public class Database {
 
   public Object get() {
     if(this.connection == null || this.isClosed()) {
-      this.connect();
+      this.connection = this.connect();
     }
     try {
       this.statement = connection.prepareStatement(this.sql);

@@ -23,6 +23,13 @@ public class Data {
     this.tools = new Tools();
   }
 
+  public Data(Database db) {
+    this.db = db;
+    this.axes = new Axes();
+    this.setting = new Setting();
+    this.tools = new Tools();
+  }
+
   public Object getUser(HttpServletResponse res) {
     this.db.reset();
     this.axes = new Axes();
