@@ -32,10 +32,11 @@ elif [ "$1" == "backend" ]; then
   fi
 elif [ "$1" == "test" ]; then
   cd backend
-  gradle test
+  ./gradlew test
+  ./gradlew jacocoTestReport
   cd ..
 elif [ "$1" == "war" ]; then
   cd backend
-  gradle war
+  ./gradlew war
   cd ..
 fi

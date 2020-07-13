@@ -1,5 +1,6 @@
 plugins {
   id 'java'
+  id 'jacoco'
   id 'org.springframework.boot' version '2.3.1.RELEASE'
   id 'io.spring.dependency-management' version '1.0.7.RELEASE'
 }
@@ -44,6 +45,13 @@ dependencies {
   implementation 'org.junit.jupiter:junit-jupiter-api:5.4.2'
   implementation 'org.mockito:mockito-core:1.+'
   testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.2'
+}
+
+jacocoTestReport {
+  reports {
+    xml.enabled true
+    html.enabled false
+  }
 }
 
 test {
