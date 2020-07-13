@@ -74,23 +74,19 @@ public class ApiController {
   }
 
   @RequestMapping(value="/auth", method=RequestMethod.POST, produces = "application/json")
-  public Object auth(@RequestParam(value="name", required=false) String name, @RequestParam(value="email", required=false) String email, @RequestParam(value="password", required=true) String password, HttpServletRequest request, HttpServletResponse response){
+  public Object auth(@RequestParam(value="name", required=false) String name, @RequestParam(value="email", required=false) String email, @RequestParam(value="password", required=true) String password, HttpServletResponse response, HttpSession session){
     if(name != null) {
-      return data.loginByName(name, password, request, response);
+      return data.loginByName(name, password, response, session);
     } else if(email != null) {
-      return data.loginByEmail(email, password, request, response);
+      return data.loginByEmail(email, password, response, session);
     } else {
       return data.bad_request(response);
     }
   }
 
   @RequestMapping(value="/logout", method=RequestMethod.GET, produces = "application/json")
-  public Object auth(HttpServletRequest request, HttpServletResponse response, HttpSession session){
-    session.invalidate();
-    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-    response.setHeader("Pragma", "no-cache");
-    response.setDateHeader("Expires", 0);
-    return data.logout(response);
+  public Object auth(HttpServletResponse response, HttpSession session){
+    return data.logout(response, session);
   }
 
 }

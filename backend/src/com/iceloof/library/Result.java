@@ -49,4 +49,8 @@ public class Result {
   public String getMsg() {
     return this.msg;
   }
+
+  public String toString() {
+    return "{\"status\":" + this.status + ", \"msg\":" + this.msg + ", \"axes\":" + this.axes.toString() + ", \"data\":" + this.data.toString() + "}";
+  }
 }

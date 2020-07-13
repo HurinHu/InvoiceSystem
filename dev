@@ -4,7 +4,7 @@ function block_for_change {
 }
 
 function update {
-  gradle build
+  gradle war
   docker container kill $(docker ps | grep "invoicesystem_backend" | awk '{ print $1 }')
   docker container kill $(docker ps | grep "invoicesystem_phpmyadmin" | awk '{ print $1 }')
   docker container kill $(docker ps | grep "invoicesystem_db" | awk '{ print $1 }')
@@ -30,4 +30,12 @@ elif [ "$1" == "backend" ]; then
       update
     done
   fi
+elif [ "$1" == "test" ]; then
+  cd backend
+  gradle test
+  cd ..
+elif [ "$1" == "war" ]; then
+  cd backend
+  gradle war
+  cd ..
 fi

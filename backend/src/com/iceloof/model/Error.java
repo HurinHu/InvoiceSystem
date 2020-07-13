@@ -12,6 +12,10 @@ public class Error {
   public Msg getError() {
     return this.error;
   }
+
+  public String toString() {
+    return "{\"error\": {\"code\":" + this.error.getCode() + ", \"description\":" + this.error.getDescription() + "}}";
+  }
 }
 
 class Msg {

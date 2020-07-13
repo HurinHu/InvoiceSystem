@@ -46,9 +46,6 @@ dependencies {
   testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.2'
 }
 
-//test {
-//  useJUnitPlatform()
-//}
 test {
   useJUnitPlatform()
   dependsOn cleanTest

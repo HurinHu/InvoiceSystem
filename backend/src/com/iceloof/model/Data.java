@@ -239,8 +239,7 @@ public class Data {
   }
 
   @SuppressWarnings({ "unchecked" })
-  public Object loginByName(String name, String password, HttpServletRequest req, HttpServletResponse res) {
-    HttpSession session = req.getSession();
+  public Object loginByName(String name, String password, HttpServletResponse res, HttpSession session) {
     this.db.reset();
     this.axes = new Axes();
     this.db.select(this.setting.user_id);
@@ -272,6 +271,10 @@ public class Data {
         session.setAttribute("UserRole", role);
         return new User(id, name, email, role);
       } else {
+        session.invalidate();
+        res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        res.setHeader("Pragma", "no-cache");
+        res.setDateHeader("Expires", 0);
         res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         return new Error("AUTH_FAILED", "Either username or password was incorrect");
       }
@@ -279,8 +282,7 @@ public class Data {
   }
 
   @SuppressWarnings({ "unchecked" })
-  public Object loginByEmail(String email, String password, HttpServletRequest req, HttpServletResponse res) {
-    HttpSession session = req.getSession();
+  public Object loginByEmail(String email, String password, HttpServletResponse res, HttpSession session) {
     this.db.reset();
     this.axes = new Axes();
     this.db.select(this.setting.user_id);
@@ -312,20 +314,28 @@ public class Data {
         session.setAttribute("UserRole", role);
         return new User(id, user, email, role);
       } else {
+        session.invalidate();
+        res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        res.setHeader("Pragma", "no-cache");
+        res.setDateHeader("Expires", 0);
         res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        return new Error("AUTH_FAILED", "Either username or password was incorrect");
+        return new Error("AUTH_FAILED", "Either email or password was incorrect");
       }
     }
   }
 
   public Object bad_request(HttpServletResponse res) {
-      res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-      return new Error("BAD_REQUEST", "400 Bad Request");
+    res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+    return new Error("BAD_REQUEST", "400 Bad Request");
   }
 
-  public Object logout(HttpServletResponse res) {
-      res.setStatus(HttpServletResponse.SC_OK);
-      return new Result("200 OK", "User logout");
+  public Object logout(HttpServletResponse res, HttpSession session) {
+    session.invalidate();
+    res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    res.setHeader("Pragma", "no-cache");
+    res.setDateHeader("Expires", 0);
+    res.setStatus(HttpServletResponse.SC_OK);
+    return new Result("200 OK", "User logout");
   }
 
 }
