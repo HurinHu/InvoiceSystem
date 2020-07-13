@@ -4,8 +4,7 @@ This is an invoice system for freelancer to manage their billing.
 This project is based on Docker+Java+MySql+React
 
 [![Build Status](https://travis-ci.com/HurinHu/InvoiceSystem.svg)](https://travis-ci.com/HurinHu/InvoiceSystem)
-[![codecov](https://codecov.io/gh/HurinHu/InvoiceSystem/graph/badge.svg)](https://codecov.io/gh/HurinHu/InvoiceSystem)
-![GitHub contributors](https://img.shields.io/github/contributors/HurinHu/InvoiceSystem)
+[![codecov](https://codecov.io/gh/HurinHu/InvoiceSystem/branch/development/graph/badge.svg)](https://codecov.io/gh/HurinHu/InvoiceSystem)
 ![GitHub issues](https://img.shields.io/github/issues-raw/HurinHu/InvoiceSystem)
 ![GitHub](https://img.shields.io/github/license/HurinHu/InvoiceSystem)
 
