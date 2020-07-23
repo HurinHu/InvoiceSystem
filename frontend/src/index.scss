@@ -1,0 +1,206 @@
+@import "~bootstrap/scss/bootstrap";
+@import '~@fortawesome/fontawesome-free/css/all.min.css';
+
+$colors: (
+    "purple1": #b2abf2,
+    "purple2": #6460a1,
+    "grey1": #a4a5a7,
+    "grey2": #58595b,
+    "grey3": #b8b9bb,
+    "green1": #78aa42,
+    "green2": #b8d8ba,
+    "green3": #8cc63e,
+    "plum1": #efc3ee,
+    "plum2": #e49be3,
+    "plum3": #d972d7,
+    "plum4": #ce4acc,
+    "plum5": #91278f,
+    "plum6": #641b63,
+    "plum7": #d96dd4,
+    "plum8": #ffb3ff,
+    "citrus1": #f3f5bc,
+    "citrus2": #ebef90,
+    "citrus3": #e3e863,
+    "citrus4": #d7df23,
+    "citrus5": #c1c81d,
+    "citrus6": #969c17,
+    "sky1": #b3edff,
+    "sky2": #80e1ff,
+    "sky3": #00b9f2,
+    "sky4": #0092bf,
+    "sky5": #006b8c,
+    "sky6": #003a4d,
+    "sky7": #002a37,
+    "red1": #c5202f,
+    "orange1": #f7941e,
+    "black1": #000000,
+    "white1": #ffffff,
+);
+
+$marketview-color: (
+    purlpe1: (),
+    purple2: (),
+    grey1: (),
+    grey2: (),
+    grey3: (),
+    green1: (),
+    green2: (),
+    green3: (),
+    plum1: (),
+    plum2: (),
+    plum3: (),
+    plum4: (),
+    plum5: (),
+    plum6: (),
+    plum7: (),
+    plum8: (),
+    citrus1: (),
+    citrus2: (),
+    citrus3: (),
+    citrus4: (),
+    citrus5: (),
+    citrus6: (),
+    sky1: (),
+    sky2: (),
+    sky3: (),
+    sky4: (),
+    sky5: (),
+    sky6: (),
+    sky7: (),
+    red1: (),
+    orange1: (),
+    black1: (),
+    white1: ()
+);
+
+@each $section,$map in $marketview-color {
+    .bg-#{$section} {
+        background-color: map-get($colors, $section);
+    }
+    .fg-#{$section} {
+        color: map-get($colors, $section);
+    }
+}
+
+@for $i from 1 to 51 {
+    .font-#{$i} {
+        font-size: ($i/10)+rem;
+    }
+}
+
+@for $i from 1 to 10 {
+    .font-weight-#{$i} {
+        font-weight: ($i*100);
+    }
+}
+
+@each $i in [normal, italic, oblique] {
+    .font-style-#{$i}{
+        font-style: $i;
+    }
+}
+
+@for $i from 1 to 101 {
+    .padding-top-#{$i} {
+        padding-top: ($i/10)+rem;
+    }
+    .padding-bottom-#{$i} {
+        padding-bottom: ($i/10)+rem;
+    }
+    .padding-left-#{$i} {
+        padding-left: ($i/10)+rem;
+    }
+    .padding-right-#{$i} {
+        padding-right: ($i/10)+rem;
+    }
+    .padding-#{$i} {
+        padding: ($i/10)+rem;
+    }
+    .margin-top-#{$i} {
+        margin-top: ($i/10)+rem;
+    }
+    .margin-bottom-#{$i} {
+        margin-bottom: ($i/10)+rem;
+    }
+    .margin-left-#{$i} {
+        margin-left: ($i/10)+rem;
+    }
+    .margin-right-#{$i} {
+        margin-right: ($i/10)+rem;
+    }
+    .margin-#{$i} {
+        margin: ($i/10)+rem;
+    }
+}
+
+@each $i in [-9999, -1001, -1000, -999, -101, -100, -99, -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1 , 2, 3, 4, 5, 6, 7, 8, 9, 10, 99, 100, 101, 999, 1000, 1001, 9999] {
+    @if $i < 0 {
+        .layer-0#{$i*-1}{
+            z-index: $i;
+        }
+    }else{
+        .layer-#{$i}{
+            z-index: $i;
+        }
+    }
+}
+
+@for $i from 1 to 51 {
+    .border-radius-#{$i}{
+        border-radius: $i+px;
+    }
+    .border-top-left-radius-#{$i}{
+        border-top-left-radius: $i+px;
+    }
+    .border-top-right-radius-#{$i}{
+        border-top-right-radius: $i+px;
+    }
+    .border-bottom-left-radius-#{$i}{
+        border-bottom-left-radius: $i+px;
+    }
+    .border-bottom-right-radius-#{$i}{
+        border-bottom-right-radius: $i+px;
+    }
+    .border-width-#{$i}{
+        border-width: $i+px;
+    }
+    .border-left-width-#{$i}{
+        border-left-width: $i+px;
+    }
+    .border-right-#{$i}{
+        border-right-width: $i+px;
+    }
+    .border-top-#{$i}{
+        border-top-width: $i+px;
+    }
+    .border-bottom-#{$i}{
+        border-bottom-width: $i+px;
+    }
+}
+
+@each $i in [none, solid, dashed, dotted, hidden] {
+    .border-style-#{$i}{
+        border-style: $i;
+    }
+    .border-left-style-#{$i}{
+        border-left-style: $i;
+    }
+    .border-right-style-#{$i}{
+        border-right-style: $i;
+    }
+    .border-top-style-#{$i}{
+        border-top-style: $i;
+    }
+    .border-bottom-style-#{$i}{
+        border-bottom-style: $i;
+    }
+}
+.pointer{
+  cursor: pointer;
+}
+.center{
+  text-align: center;
+}
+.middle{
+  vertical-align: middle;
+}
