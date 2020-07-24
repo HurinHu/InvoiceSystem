@@ -49,5 +49,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://backend.dev.com/InvoiceSystem/"
+  "homepage":"http://frontend.dev.com/InvoiceSystem",
+  "proxy": "http://backend.dev.com/"
 }
