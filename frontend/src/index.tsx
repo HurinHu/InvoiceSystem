@@ -6,10 +6,16 @@ import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
 import { store, persistor } from './reducers';
 import { PersistGate } from 'redux-persist/integration/react';
+import { Spinner } from 'react-bootstrap';
 
 ReactDOM.render(
   <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
+        <div className="loader-wrapper">
+          <Spinner animation="border" role="status">
+            <span className="sr-only">Loading...</span>
+          </Spinner>
+        </div>
         <App />
       </PersistGate>
     </Provider>,

@@ -5,6 +5,14 @@
   min-height: 100vh;
   padding: 25px;
   background-color: #f4f2f3;
+  .title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: -180px;
+    width: 240px;
+  }
   .loginForm {
     margin: 0;
     position: absolute;

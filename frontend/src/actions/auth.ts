@@ -1,5 +1,5 @@
 import { LOGIN, LOGOUT, REMEMBER } from '../stores/user';
-import { authLogin } from '../api';
+import { authLogin, getUser, Logout } from '../api';
 
 export const Login = (email: string, password: string) => async (dispatch: any) => {
   let res = await authLogin(email, password);
@@ -19,6 +19,31 @@ export const Login = (email: string, password: string) => async (dispatch: any) 
     } });
   }
 };
+
+export const CheckUser = () => async (dispatch: any) => {
+  let res = await getUser();
+  if(res.status !== 200){
+    return dispatch({ type: LOGIN, payload: {
+      user: '',
+      role: '',
+      isLogin: false
+    } });
+  }
+}
+
+export const UserLogout = () => async (dispatch: any) => {
+  let res = await Logout();
+  if(res.status === 200){
+    res = await getUser();
+    if(res.status !== 200){
+      return dispatch({ type: LOGIN, payload: {
+        user: '',
+        role: '',
+        isLogin: false
+      } });
+    }
+  }
+}
 
 export const authLogout = () => (dispatch: any) => {return dispatch({ type: LOGOUT });};
 
